@@ -1,6 +1,5 @@
 ell := 2;
 GL4ell := GL(4,GF(ell));
-// J := Matrix(GF(ell),[[0,0,1,0],[0,0,0,0],[-1,0,0,0],[0,0,0,0]]);
 J := Matrix(GF(ell),[[0,1,0,0],[-1,0,0,0],[0,0,0,0],[0,0,0,0]]);
 V := KMatrixSpace(GF(ell),2,2);
 gs := [V | g : g in Generators(GSp(2,ell))] cat [V!Id(GSp(2,ell))];
@@ -40,18 +39,4 @@ for i := 1 to #Gsubs do
     Append(~Gout_notequiv, Hrec);
     Append(~Gout_notequiv_all, Hrec);
   end if;
-/* JV: this seems totally wrong to me, and I wrote it! 
-  N := Normalizer(GL4ell,Hdual);
-  for h in H do
-    hdual := Transpose(h^(-1))*sim(h);
-    N := [n : n in N | h^(nu*n) eq hdual];
-    if N eq [] then
-      print "!!!!", Hrec;
-      Append(~Gout_notequiv, Hrec);
-      Append(~Gout_notequiv_all, Hrec);
-      break;
-    end if;
-  end for;
-*/
-  // assert &and[&and[h^(nu*n) eq Transpose(h^(-1))*sim(h) : h in H] : n in N];
 end for;
