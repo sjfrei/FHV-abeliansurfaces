@@ -21,7 +21,7 @@ end function;
 _ := [sim(g) : g in G];
 
 Gsubs := Subgroups(G);
-Gout_notequiv_sub := [* *];  // those where the subgroup is not even conjugate
+Gout_notequiv_sub := [* *];  // those where the subgroup is not even isomorphic
 Gout_notequiv := [* *];  // those without an equivalence to the twisted contragredient
 Gout_notequiv_all := [* *];
 for i := 1 to #Gsubs do
@@ -29,13 +29,18 @@ for i := 1 to #Gsubs do
   print i;
   H := Hrec`subgroup;
   Hdual := sub<GL4ell | [Transpose(h^(-1))*sim(h) : h in H]>;
-  bl, nu := IsConjugate(GL4ell,H,Hdual);
-  if not bl then
-    print "!!!! not even a conjugate subgroup", Hrec;
+  if not IsIsomorphic(H,Hdual) then
+    print "!!!! not even an isomorphic group", Hrec;
     Append(~Gout_notequiv_sub, Hrec);
     Append(~Gout_notequiv_all, Hrec);
     continue;
   end if;
+  if not IsConjugate(GL4ell,H,Hdual) then
+    print "!!!!", Hrec;
+    Append(~Gout_notequiv, Hrec);
+    Append(~Gout_notequiv_all, Hrec);
+  end if;
+/* JV: this seems totally wrong to me, and I wrote it! 
   N := Normalizer(GL4ell,Hdual);
   for h in H do
     hdual := Transpose(h^(-1))*sim(h);
@@ -47,5 +52,6 @@ for i := 1 to #Gsubs do
       break;
     end if;
   end for;
+*/
   // assert &and[&and[h^(nu*n) eq Transpose(h^(-1))*sim(h) : h in H] : n in N];
 end for;
