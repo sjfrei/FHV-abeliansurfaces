@@ -2,13 +2,13 @@ ell := 2;
 GL4ell := GL(4,GF(ell));
 J := Matrix(GF(ell),[[0,1,0,0],[-1,0,0,0],[0,0,0,0],[0,0,0,0]]);
 V := KMatrixSpace(GF(ell),2,2);
-gs := [V | g : g in Generators(GSp(2,ell))] cat [V!Id(GSp(2,ell))];
+gs := [V | g : g in Generators(ConformalSymplecticGroup(2,ell))] cat [V!Id(ConformalSymplecticGroup(2,ell))];
 hs := [V | h : h in Generators(GL(2,ell))] cat [V!Id(GL(2,ell))];
 z := V![[0,0],[0,0]];
 ms := [V | m : m in Basis(V)] cat [z];
 Ggen := [GL4ell | BlockMatrix([[g,z],[m,h]]) : g in gs, h in hs, m in ms];
 G := sub<GL4ell | Ggen>;
-assert #G eq #GSp(2,ell)*#GL(2,ell)*#V;
+assert #G eq #ConformalSymplecticGroup(2,ell)*#GL(2,ell)*#V;
  
 sim := function(g);
   gjg := Transpose(g)*J*g;
