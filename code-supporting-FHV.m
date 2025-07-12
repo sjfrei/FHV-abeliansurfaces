@@ -6,10 +6,9 @@
 
 
 ///////////////////////////////////////////////////////////
-// E is an element in G_{ell} as in Equation 4.2.7, and  //
-// M is M_{q,ell}, as in Equation 4.2.9. R is as in      // 
-// Equation 4.2.10. Rmodp is as in Proposition 4.2.11,   //
-// and S is as in Proposition 4.3.2. We use p instead of //
+// E is an element in G_{ell} as in Equation 2.3.12, and //
+// M is M_{q,ell}, as in Equation 2.3.14.  We compute    //
+// the conjugation in (2.3.15).  We use p instead of     //
 // l to avoid confusing l with 1.                        //
 ///////////////////////////////////////////////////////////
 
@@ -26,15 +25,15 @@ S:=d*Transpose(Rmodp^-1);
 S;
 
 //////////////////////////////////////////////////////////////////////
-// Proof supporting Theorem 4.5.1
+// Proof supporting Theorem 1.2.1 (proof given in section 2.5)
 //////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////
-// We check for p=2 that the subgroups from Propositions //
-// 4.2.11 and 4.3.2 are not conjugate. We do this by     //
-// iterating over GL_4(F_2), looking for a matrix which  //
-// conjugates all matrices as in Proposition 4.2.11      //
-// to those in 4.3.2. The code returns the empty set.    //
+// We check for p=2 that the subgroups from Proposition  //
+// 2.4.2 are not conjugate.  We do this by iterating     //
+// iterating over GL_4(F_2), looking for a single matrix //
+// that conjugates all matrices.  The code returns the   //
+// empty set.                                            //
 ///////////////////////////////////////////////////////////
 
 p:=2;
@@ -56,15 +55,13 @@ Ps;
 
 
 //////////////////////////////////////////////////////////////////////
-// Proof of Proposition 5.1.1
+// Proof of Proposition 3.1.1
 //////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////
 // We check that the permutation representations for A[p]//
 // and Adual[p] are not isomorphic by computing their    //
-// permutation character. G is the subgroup as in        //
-// Proposition 4.2.11, and Gv is the subgroup as in      //
-// Proposition 4.3.2.                                    //
+// permutation character.                                //
 ///////////////////////////////////////////////////////////
 
 
@@ -107,10 +104,7 @@ PermutationCharacter(Image(piG)) eq PermutationCharacter(Image(piGv));
 // are not isomorphic by computing the multiplicity of   //
 // the trivial representation in the induced linear      //
 // representations for A[p] and Adual[p]. We find that   //
-// they have different multiplicities. G is the subgroup //
-// as in Proposition 4.2.11, Gv is the subgroup as in    //
-// Proposition 4.3.2, and W and Wv are trivial           //
-// subrepresentations corresponding to each.             //
+// they have different multiplicities.                   //
 ///////////////////////////////////////////////////////////
 
 // Switch between p=3,5,7 to check all cases. 
@@ -156,17 +150,15 @@ Dimension(Wv);
 
 
 //////////////////////////////////////////////////////////////////////
-// Justification of Remark 5.1.2
+// Justification of Remark 3.1.2
 //////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////
 // We check that the permutation representations for A[p]//
 // and Adual[p] are isomorphic for p=2,3 when we take    //
 // our elliptic curves from the more general setup in    //
-// section 4.6. G is the subgroup analogous to that as   //
-// in Proposition 4.2.11, Gv is the subgroup analogous   //
-// to that as in Proposition 4.3.2. The permutation      //
-// representations are conjugate subgroups in S_{p^4}.   //
+// section 2.6.  The permutation representations are     //
+// conjugate subgroups in S_{p^4}.                       //
 ///////////////////////////////////////////////////////////
 
 // Switch between p=2 and p=3 to check both cases.
