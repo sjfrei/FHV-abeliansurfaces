@@ -155,16 +155,11 @@ Dimension(Wv);
 
 ///////////////////////////////////////////////////////////
 // We check that the permutation representations for A[p]//
-// and Adual[p] are isomorphic for p=2,3 when we take    //
-// our elliptic curves from the more general setup in    //
-// section 2.6.  The permutation representations are     //
-// conjugate subgroups in S_{p^4}.                       //
+// and Adual[p] are not isomorphic for p=2  but that the //
+// induced linear representations are isomorphic.        //
 ///////////////////////////////////////////////////////////
 
-// Switch between p=2 and p=3 to check both cases.
-
 p := 2;
-// p:= 3;
 k := GF(p);
 V := [v : v in VectorSpace(k,4)];
 G := [];
@@ -174,7 +169,7 @@ for a, b1, b2, c1, c2, d, x1, x2 in k do
     Append(~G,M);
   end if;
 end for;
-Gv := [M[1,1]*M[2,2]*Transpose(M^-1) : M in G];
+
 rtpermrep := function(g);
   // takes a matrix g in GL_4(k) and returns the permutation action on k^4
   perm := [];
@@ -186,9 +181,38 @@ rtpermrep := function(g);
 end function;
 e := rtpermrep(G[1]);
 Sn := Parent(e);
-Ggp := sub<GL(4,k) | G>;
-piG := hom<Ggp -> Sn | [rtpermrep(Ggp.i) : i in [1..#Generators(Ggp)]]>;
-Gvgp := sub<GL(4,k) | Gv>;
-piGv := hom<Gvgp -> Sn | [rtpermrep(Gvgp.i) : i in [1..#Generators(Gvgp)]]>;
 
-IsConjugate(Sn, Image(piG), Image(piGv));
+Gambient := GL(4,k);
+
+dual := function(g);
+  return Gambient!(g[1,1]*g[2,2]*Matrix(Transpose(g^(-1))));
+end function;
+
+Ggp := sub<Gambient | G>;
+piG := hom<Ggp -> Sn | [rtpermrep(Ggp.i) : i in [1..#Generators(Ggp)]]>;
+piGv := hom<Ggp -> Sn | [rtpermrep(dual(Ggp.i)) : i in [1..#Generators(Ggp)]]>;
+
+Gperm := PermutationModule(Ggp, piG, Rationals());
+Gvperm := PermutationModule(Ggp, piGv, Rationals());
+
+if not IsIsomorphic(Gperm, Gvperm) then
+  print "Linear representations are inequivalent, so same for permutation reps";
+else
+  bl, nu := IsConjugate(Sn, Image(piG), Image(piGv));
+  Ps := Normalizer(Sn, Image(piGv));
+  for M in G do
+        Ps0 := [];
+        for g in Ps do
+          if piG(M)^(nu*g) eq piGv(M) then
+                Append(~Ps0, g);
+          end if;
+        end for;
+        Ps := Ps0;
+  end for;
+  if #Ps eq 0 then
+    "Linear representations *are* equivalent, but permutation reps are *not*, weird!";
+  else
+    "Permutation reps are equivalent (so the linear reps are also equivalent)";
+  end if;
+end if;
+
